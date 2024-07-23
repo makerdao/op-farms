@@ -4,3 +4,7 @@
 [submodule "lib/endgame-toolkit"]
 	path = lib/endgame-toolkit
 	url = https://github.com/makerdao/endgame-toolkit
+[submodule "lib/op-token-bridge"]
+	path = lib/op-token-bridge
+	url = https://github.com/makerdao/op-token-bridge
+	branch = dev
