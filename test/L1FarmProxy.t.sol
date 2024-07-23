@@ -21,13 +21,13 @@ import "dss-test/DssTest.sol";
 
 import { L1FarmProxy } from "src/L1FarmProxy.sol";
 import { GemMock } from "test/mocks/GemMock.sol";
-import { L1TokenGatewayMock } from "test/mocks/L1TokenGatewayMock.sol";
+import { L1TokenBridgeMock } from "test/mocks/L1TokenBridgeMock.sol";
 
 contract L1FarmProxyTest is DssTest {
 
     GemMock localToken;
     L1FarmProxy l1Proxy;
-    address gateway;
+    address bridge;
     address escrow = address(0xeee);
     address l2Proxy = address(0x222);
     address remoteToken = address(0x333);
@@ -35,21 +35,21 @@ contract L1FarmProxyTest is DssTest {
     event RewardAdded(uint256 rewards);
 
     function setUp() public {
-        gateway = address(new L1TokenGatewayMock(escrow));
+        bridge = address(new L1TokenBridgeMock(escrow));
         localToken = new GemMock(1_000_000 ether);
-        l1Proxy = new L1FarmProxy(address(localToken), remoteToken, l2Proxy, gateway);
+        l1Proxy = new L1FarmProxy(address(localToken), remoteToken, l2Proxy, bridge);
     }
 
     function testConstructor() public {
         vm.expectEmit(true, true, true, true);
         emit Rely(address(this));
-        L1FarmProxy p = new L1FarmProxy(address(localToken), remoteToken, l2Proxy, gateway);
+        L1FarmProxy p = new L1FarmProxy(address(localToken), remoteToken, l2Proxy, bridge);
         
         assertEq(p.localToken(), address(localToken));
         assertEq(p.remoteToken(), remoteToken);
         assertEq(p.l2Proxy(), l2Proxy);
-        assertEq(address(p.l1Gateway()), gateway);
-        assertEq(localToken.allowance(address(p), gateway), type(uint256).max);
+        assertEq(address(p.l1Bridge()), bridge);
+        assertEq(localToken.allowance(address(p), bridge), type(uint256).max);
         assertEq(p.wards(address(this)), 1);
     }
 

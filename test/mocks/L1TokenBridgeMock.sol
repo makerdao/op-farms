@@ -21,7 +21,7 @@ interface TokenLike {
     function transferFrom(address, address, uint256) external;
 }
 
-contract L1TokenGatewayMock {
+contract L1TokenBridgeMock {
     address public immutable inbox;
     address public immutable escrow;
 

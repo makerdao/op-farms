@@ -30,9 +30,9 @@ library FarmProxyDeploy {
         address localToken,
         address remoteToken,
         address l2Proxy,
-        address l1Gateway
+        address l1Bridge
     ) internal returns (address l1Proxy) {
-        l1Proxy = address(new L1FarmProxy(localToken, remoteToken, l2Proxy, l1Gateway));
+        l1Proxy = address(new L1FarmProxy(localToken, remoteToken, l2Proxy, l1Bridge));
         ScriptTools.switchOwner(l1Proxy, deployer, owner);
     }
 

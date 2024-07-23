@@ -36,7 +36,7 @@ interface L1FarmProxyLike {
     function localToken() external view returns (address);
     function remoteToken() external view returns (address);
     function l2Proxy() external view returns (address);
-    function l1Gateway() external view returns (address);
+    function l1Bridge() external view returns (address);
     function file(bytes32 what, uint256 data) external;
 }
 
@@ -54,7 +54,7 @@ struct ProxiesConfig {
     address l1RewardsToken;
     address l2RewardsToken;
     address stakingToken;
-    address l1Gateway;
+    address l1Bridge;
     uint32  minGasLimit;       // For the L1 proxy
     uint224 rewardThreshold;   // For the L1 and L2 proxies
     address farm;              // The L2 farm
@@ -85,7 +85,7 @@ library FarmProxyInit {
         require(distribution.dssVest()        == cfg.vest,           "FarmProxyInit/distribution-vest-mismatch");
         require(l1Proxy.localToken()          == cfg.l1RewardsToken, "FarmProxyInit/local-token-mismatch");
         require(l1Proxy.remoteToken()         == cfg.l2RewardsToken, "FarmProxyInit/remote-token-mismatch");
-        require(l1Proxy.l1Gateway()           == cfg.l1Gateway,      "FarmProxyInit/l1-gateway-mismatch");
+        require(l1Proxy.l1Bridge()           == cfg.l1Bridge,      "FarmProxyInit/l1-bridge-mismatch");
         require(cfg.minGasLimit               <= 10_000_000_000,     "FarmProxyInit/min-gas-limit-out-of-bounds");
         require(cfg.rewardThreshold           <= type(uint224).max,  "FarmProxyInit/reward-threshold-out-of-bounds");
 

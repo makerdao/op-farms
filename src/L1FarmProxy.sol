@@ -22,7 +22,7 @@ interface GemLike {
     function transfer(address, uint256) external;
 }
 
-interface L1TokenGatewayLike {
+interface L1TokenBridgeLike {
     function bridgeERC20To(
         address _localToken,
         address _remoteToken,
@@ -41,20 +41,20 @@ contract L1FarmProxy {
     address public immutable localToken;
     address public immutable remoteToken;
     address public immutable l2Proxy;
-    L1TokenGatewayLike public immutable l1Gateway;
+    L1TokenBridgeLike public immutable l1Bridge;
 
     event Rely(address indexed usr);
     event Deny(address indexed usr);
     event File(bytes32 indexed what, uint256 data);
     event RewardAdded(uint256 reward);
 
-    constructor(address _localToken, address _remoteToken, address _l2Proxy, address _l1Gateway) {
+    constructor(address _localToken, address _remoteToken, address _l2Proxy, address _l1Bridge) {
         localToken   = _localToken;
         remoteToken  = _remoteToken;
         l2Proxy      = _l2Proxy;
-        l1Gateway    = L1TokenGatewayLike(_l1Gateway);
+        l1Bridge    = L1TokenBridgeLike(_l1Bridge);
 
-        GemLike(_localToken).approve(_l1Gateway, type(uint256).max);
+        GemLike(_localToken).approve(_l1Bridge, type(uint256).max);
 
         wards[msg.sender] = 1;
         emit Rely(msg.sender);
@@ -87,7 +87,7 @@ contract L1FarmProxy {
         (uint32 minGasLimit_, uint256 rewardThreshold_) = (minGasLimit, rewardThreshold);
         require(reward > rewardThreshold_, "L1FarmProxy/reward-too-small");
 
-        l1Gateway.bridgeERC20To({
+        l1Bridge.bridgeERC20To({
             _localToken:   localToken,
             _remoteToken:  remoteToken,
             _to :          l2Proxy,
