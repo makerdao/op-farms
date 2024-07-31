@@ -38,7 +38,7 @@ contract L1FarmProxy {
     uint32  public minGasLimit;
     uint224 public rewardThreshold;
 
-    address public immutable localToken;
+    address public immutable rewardsToken;
     address public immutable remoteToken;
     address public immutable l2Proxy;
     L1TokenBridgeLike public immutable l1Bridge;
@@ -48,13 +48,13 @@ contract L1FarmProxy {
     event File(bytes32 indexed what, uint256 data);
     event RewardAdded(uint256 reward);
 
-    constructor(address _localToken, address _remoteToken, address _l2Proxy, address _l1Bridge) {
-        localToken   = _localToken;
+    constructor(address _rewardsToken, address _remoteToken, address _l2Proxy, address _l1Bridge) {
+        rewardsToken = _rewardsToken;
         remoteToken  = _remoteToken;
         l2Proxy      = _l2Proxy;
-        l1Bridge    = L1TokenBridgeLike(_l1Bridge);
+        l1Bridge     = L1TokenBridgeLike(_l1Bridge);
 
-        GemLike(_localToken).approve(_l1Bridge, type(uint256).max);
+        GemLike(_rewardsToken).approve(_l1Bridge, type(uint256).max);
 
         wards[msg.sender] = 1;
         emit Rely(msg.sender);
@@ -88,7 +88,7 @@ contract L1FarmProxy {
         require(reward > rewardThreshold_, "L1FarmProxy/reward-too-small");
 
         l1Bridge.bridgeERC20To({
-            _localToken:   localToken,
+            _localToken:   rewardsToken,
             _remoteToken:  remoteToken,
             _to :          l2Proxy,
             _amount :      reward,

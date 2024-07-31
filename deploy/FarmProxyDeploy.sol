@@ -21,18 +21,17 @@ import { ScriptTools } from "dss-test/ScriptTools.sol";
 import { L2FarmProxySpell } from "./L2FarmProxySpell.sol";
 import { L1FarmProxy } from "src/L1FarmProxy.sol";
 import { L2FarmProxy } from "src/L2FarmProxy.sol";
-import { EtherForwarder } from "src/EtherForwarder.sol";
 
 library FarmProxyDeploy {
     function deployL1Proxy(
         address deployer,
         address owner,
-        address localToken,
+        address rewardsToken,
         address remoteToken,
         address l2Proxy,
         address l1Bridge
     ) internal returns (address l1Proxy) {
-        l1Proxy = address(new L1FarmProxy(localToken, remoteToken, l2Proxy, l1Bridge));
+        l1Proxy = address(new L1FarmProxy(rewardsToken, remoteToken, l2Proxy, l1Bridge));
         ScriptTools.switchOwner(l1Proxy, deployer, owner);
     }
 

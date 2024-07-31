@@ -25,7 +25,7 @@ import { L1TokenBridgeMock } from "test/mocks/L1TokenBridgeMock.sol";
 
 contract L1FarmProxyTest is DssTest {
 
-    GemMock localToken;
+    GemMock rewardsToken;
     L1FarmProxy l1Proxy;
     address bridge;
     address escrow = address(0xeee);
@@ -36,20 +36,20 @@ contract L1FarmProxyTest is DssTest {
 
     function setUp() public {
         bridge = address(new L1TokenBridgeMock(escrow));
-        localToken = new GemMock(1_000_000 ether);
-        l1Proxy = new L1FarmProxy(address(localToken), remoteToken, l2Proxy, bridge);
+        rewardsToken = new GemMock(1_000_000 ether);
+        l1Proxy = new L1FarmProxy(address(rewardsToken), remoteToken, l2Proxy, bridge);
     }
 
     function testConstructor() public {
         vm.expectEmit(true, true, true, true);
         emit Rely(address(this));
-        L1FarmProxy p = new L1FarmProxy(address(localToken), remoteToken, l2Proxy, bridge);
+        L1FarmProxy p = new L1FarmProxy(address(rewardsToken), remoteToken, l2Proxy, bridge);
         
-        assertEq(p.localToken(), address(localToken));
+        assertEq(p.rewardsToken(), address(rewardsToken));
         assertEq(p.remoteToken(), remoteToken);
         assertEq(p.l2Proxy(), l2Proxy);
         assertEq(address(p.l1Bridge()), bridge);
-        assertEq(localToken.allowance(address(p), bridge), type(uint256).max);
+        assertEq(rewardsToken.allowance(address(p), bridge), type(uint256).max);
         assertEq(p.wards(address(this)), 1);
     }
 
@@ -71,15 +71,15 @@ contract L1FarmProxyTest is DssTest {
 
     function testRecover() public {
         address receiver = address(0x123);
-        localToken.transfer(address(l1Proxy), 1 ether);
+        rewardsToken.transfer(address(l1Proxy), 1 ether);
 
-        assertEq(localToken.balanceOf(receiver), 0);
-        assertEq(localToken.balanceOf(address(l1Proxy)), 1 ether);
+        assertEq(rewardsToken.balanceOf(receiver), 0);
+        assertEq(rewardsToken.balanceOf(address(l1Proxy)), 1 ether);
 
-        l1Proxy.recover(address(localToken), receiver, 1 ether);
+        l1Proxy.recover(address(rewardsToken), receiver, 1 ether);
 
-        assertEq(localToken.balanceOf(receiver), 1 ether);
-        assertEq(localToken.balanceOf(address(l1Proxy)), 0);
+        assertEq(rewardsToken.balanceOf(receiver), 1 ether);
+        assertEq(rewardsToken.balanceOf(address(l1Proxy)), 0);
     }
 
     function testNotifyRewardAmount() public {
@@ -88,15 +88,15 @@ contract L1FarmProxyTest is DssTest {
         vm.expectRevert("L1FarmProxy/reward-too-small");
         l1Proxy.notifyRewardAmount(100 ether);
 
-        localToken.transfer(address(l1Proxy), 101 ether);
-        assertEq(localToken.balanceOf(escrow), 0);
-        assertEq(localToken.balanceOf(address(l1Proxy)), 101 ether);
+        rewardsToken.transfer(address(l1Proxy), 101 ether);
+        assertEq(rewardsToken.balanceOf(escrow), 0);
+        assertEq(rewardsToken.balanceOf(address(l1Proxy)), 101 ether);
 
         vm.expectEmit(true, true, true, true);
         emit RewardAdded(101 ether);
         l1Proxy.notifyRewardAmount(101 ether);
 
-        assertEq(localToken.balanceOf(escrow), 101 ether);
-        assertEq(localToken.balanceOf(address(l1Proxy)), 0);
+        assertEq(rewardsToken.balanceOf(escrow), 101 ether);
+        assertEq(rewardsToken.balanceOf(address(l1Proxy)), 0);
     }
 }

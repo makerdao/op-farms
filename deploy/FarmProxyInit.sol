@@ -33,7 +33,7 @@ interface VestedRewardsDistributionLike {
 }
 
 interface L1FarmProxyLike {
-    function localToken() external view returns (address);
+    function rewardsToken() external view returns (address);
     function remoteToken() external view returns (address);
     function l2Proxy() external view returns (address);
     function l1Bridge() external view returns (address);
@@ -79,15 +79,15 @@ library FarmProxyInit {
 
         // sanity checks
 
-        require(vest.gem()                    == cfg.l1RewardsToken, "FarmProxyInit/vest-gem-mismatch");
-        require(distribution.gem()            == cfg.l1RewardsToken, "FarmProxyInit/distribution-gem-mismatch");
-        require(distribution.stakingRewards() == l1Proxy_,           "FarmProxyInit/distribution-farm-mismatch");
-        require(distribution.dssVest()        == cfg.vest,           "FarmProxyInit/distribution-vest-mismatch");
-        require(l1Proxy.localToken()          == cfg.l1RewardsToken, "FarmProxyInit/local-token-mismatch");
-        require(l1Proxy.remoteToken()         == cfg.l2RewardsToken, "FarmProxyInit/remote-token-mismatch");
-        require(l1Proxy.l1Bridge()           == cfg.l1Bridge,      "FarmProxyInit/l1-bridge-mismatch");
-        require(cfg.minGasLimit               <= 10_000_000_000,     "FarmProxyInit/min-gas-limit-out-of-bounds");
-        require(cfg.rewardThreshold           <= type(uint224).max,  "FarmProxyInit/reward-threshold-out-of-bounds");
+        require(vest.gem()                    == cfg.l1RewardsToken,   "FarmProxyInit/vest-gem-mismatch");
+        require(distribution.gem()            == cfg.l1RewardsToken,   "FarmProxyInit/distribution-gem-mismatch");
+        require(distribution.stakingRewards() == l1Proxy_,             "FarmProxyInit/distribution-farm-mismatch");
+        require(distribution.dssVest()        == cfg.vest,             "FarmProxyInit/distribution-vest-mismatch");
+        require(l1Proxy.rewardsToken()        == cfg.l1RewardsToken,   "FarmProxyInit/rewardsToken-token-mismatch");
+        require(l1Proxy.remoteToken()         == cfg.l2RewardsToken,   "FarmProxyInit/remote-token-mismatch");
+        require(l1Proxy.l1Bridge()            == cfg.l1Bridge,         "FarmProxyInit/l1-bridge-mismatch");
+        require(cfg.minGasLimit               <= 10_000_000_000,       "FarmProxyInit/min-gas-limit-out-of-bounds");
+        require(cfg.rewardThreshold           <= type(uint224).max,    "FarmProxyInit/reward-threshold-out-of-bounds");
 
         // setup vest
 
@@ -119,7 +119,7 @@ library FarmProxyInit {
                 cfg.rewardThreshold,
                 cfg.rewardsDuration
             )),
-            minGasLimit: relayMinGasLimit
+            minGasLimit: cfg.relayMinGasLimit
         });
 
         // update chainlog
