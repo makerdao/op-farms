@@ -1,9 +1,14 @@
 {
   "domains": {
-    "sepolia": {},
+    "sepolia": {
+      "chainlog": "0x066eBcc55Ca699e14F3c3694CdB230a2B8cE3a83",
+      "rewardsToken": "0x0B2eaB37Ab96685Ad2b1A6FdDb8921e156073f84"
+    },
     "base_sepolia": {
       "l1Messenger": "0xC34855F4De64F1840e5686e64278da901e261f20",
-      "l2Messenger": "0x4200000000000000000000000000000000000007"
+      "l2Messenger": "0x4200000000000000000000000000000000000007",
+      "rewardsToken": "0x0000000000000000000000000000000000000000",
+      "stakingToken": "0x0000000000000000000000000000000000000000"
     }
   }
 }
