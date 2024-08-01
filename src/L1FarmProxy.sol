@@ -36,7 +36,7 @@ interface L1TokenBridgeLike {
 contract L1FarmProxy {
     mapping (address => uint256) public wards;
     uint32  public minGasLimit;
-    uint224 public rewardThreshold;
+    uint224 public rewardThreshold; // TODO: should we still have it? we don't have to anymore since this contract doesn't hold eth to waist. If not then we rely on dss-cron's defined intervals for timing - https://github.com/makerdao/dss-cron/blob/master/src/VestRewardsDistributionJob.sol#L141. Opting for now to leave it to maintain symmetry with Arbitrum and with the L2 proxy.
 
     address public immutable rewardsToken;
     address public immutable remoteToken;

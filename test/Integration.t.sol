@@ -196,13 +196,13 @@ contract IntegrationTest is DssTest {
             l2RewardsToken:            address(l2Token),
             stakingToken:              stakingToken,
             l1Bridge:                  l1Bridge,
-            minGasLimit:               1_000_000, // determined by running deploy/Estimate.s.sol and adding some margin // TODO: leave this comment?
+            minGasLimit:               1_000_000,
             rewardThreshold:           1 ether,
             farm:                      address(farm),
             rewardsDuration:           1 days,
-            relayMinGasLimit:          1_000_000,
-            proxyChainlogKey:          "FARM_PROXY_TKA_TKB_ARB",
-            distrChainlogKey:          "REWARDS_DISTRIBUTION_TKA_TKB_ARB"
+            initMinGasLimit:           1_000_000,
+            proxyChainlogKey:          "FARM_PROXY_TKA_TKB_BASE",
+            distrChainlogKey:          "REWARDS_DIST_TKA_TKB_BASE"
         });
 
         vm.startPrank(PAUSE_PROXY);
@@ -220,8 +220,8 @@ contract IntegrationTest is DssTest {
         assertEq(vest.res(vestId),                                            1);
         assertEq(l1Proxy.minGasLimit(),                                       cfg.minGasLimit);
         assertEq(l1Proxy.rewardThreshold(),                                   cfg.rewardThreshold);
-        assertEq(dss.chainlog.getAddress("FARM_PROXY_TKA_TKB_ARB"),           address(l1Proxy));
-        assertEq(dss.chainlog.getAddress("REWARDS_DISTRIBUTION_TKA_TKB_ARB"), cfg.vestedRewardsDistribution);
+        assertEq(dss.chainlog.getAddress("FARM_PROXY_TKA_TKB_BASE"),          address(l1Proxy));
+        assertEq(dss.chainlog.getAddress("REWARDS_DIST_TKA_TKB_BASE"),        cfg.vestedRewardsDistribution);
 
         l2Domain.relayFromHost(true);
 

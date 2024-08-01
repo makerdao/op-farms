@@ -67,17 +67,6 @@ contract Init is Script {
         uint224 rewardThreshold = 0;
         uint256 rewardsDuration = 1 days;
 
-        bytes memory initCalldata = abi.encodeCall(L2GovernanceRelayLike.relay, (
-            l2ProxySpell, 
-            abi.encodeCall(L2FarmProxySpell.init, (
-                l2Proxy,
-                l2RewardsToken,
-                stakingToken,
-                farm,
-                rewardThreshold,
-                rewardsDuration
-            ))
-        ));
         ProxiesConfig memory cfg = ProxiesConfig({
             vest:                      deps.readAddress(".vest"),
             vestTot:                   100 ether,
@@ -88,13 +77,13 @@ contract Init is Script {
             l2RewardsToken:            l2RewardsToken,
             stakingToken:              stakingToken,
             l1Bridge:                  deps.readAddress(".l1Bridge"),
-            minGasLimit:               300_000,
+            minGasLimit:               1_000_000,
             rewardThreshold:           rewardThreshold,
             farm:                      farm,
             rewardsDuration:           rewardsDuration,
-            relayMinGasLimit:          1_000_000,
-            proxyChainlogKey:          "FARM_PROXY_TKA_TKB_BASE",
-            distrChainlogKey:          "REWARDS_DIST_TKA_TKB_BASE"
+            initMinGasLimit:           1_000_000,
+            proxyChainlogKey:          "FARM_PROXY_TKA_TKB_BASE", // Note: need to change this when non base (relevant for testing only as in production this is run in the spell)
+            distrChainlogKey:          "REWARDS_DIST_TKA_TKB_BASE" // Note: need to change this when non base (relevant for testing only as in production this is run in the spell)
         });
 
         vm.startBroadcast(l1PrivKey);

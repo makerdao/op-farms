@@ -46,7 +46,7 @@ interface L1RelayLike {
 }
 
 struct ProxiesConfig {
-    address vest;           // DssVest, assumed to have been fully init'ed for l1RewardsToken
+    address vest;             // DssVest, assumed to have been fully init'ed for l1RewardsToken
     uint256 vestTot;
     uint256 vestBgn;
     uint256 vestTau;
@@ -55,13 +55,13 @@ struct ProxiesConfig {
     address l2RewardsToken;
     address stakingToken;
     address l1Bridge;
-    uint32  minGasLimit;       // For the L1 proxy
-    uint224 rewardThreshold;   // For the L1 and L2 proxies
-    address farm;              // The L2 farm
-    uint256 rewardsDuration;   // For the L2 farm
-    uint32  relayMinGasLimit;  // For the L1 relay
-    bytes32 proxyChainlogKey;  // Chainlog key for the L1 proxy
-    bytes32 distrChainlogKey;  // Chainlog key for vestedRewardsDistribution
+    uint32  minGasLimit;      // For filing in the L1 proxy
+    uint224 rewardThreshold;  // For the L1 and L2 proxies
+    address farm;             // The L2 farm
+    uint256 rewardsDuration;  // For the L2 farm
+    uint32  initMinGasLimit;  // For relaying of `init` L2 spell operation
+    bytes32 proxyChainlogKey; // Chainlog key for the L1 proxy
+    bytes32 distrChainlogKey; // Chainlog key for vestedRewardsDistribution
 }
 
 library FarmProxyInit {
@@ -84,9 +84,11 @@ library FarmProxyInit {
         require(distribution.stakingRewards() == l1Proxy_,             "FarmProxyInit/distribution-farm-mismatch");
         require(distribution.dssVest()        == cfg.vest,             "FarmProxyInit/distribution-vest-mismatch");
         require(l1Proxy.rewardsToken()        == cfg.l1RewardsToken,   "FarmProxyInit/rewardsToken-token-mismatch");
+        require(l1Proxy.l2Proxy()             == l2Proxy,              "FarmProxyInit/l2-proxy-mismatch");
         require(l1Proxy.remoteToken()         == cfg.l2RewardsToken,   "FarmProxyInit/remote-token-mismatch");
         require(l1Proxy.l1Bridge()            == cfg.l1Bridge,         "FarmProxyInit/l1-bridge-mismatch");
         require(cfg.minGasLimit               <= 10_000_000_000,       "FarmProxyInit/min-gas-limit-out-of-bounds");
+        require(cfg.initMinGasLimit           <= 10_000_000_000,       "FarmProxyInit/init-min-gas-limit-out-of-bounds");
         require(cfg.rewardThreshold           <= type(uint224).max,    "FarmProxyInit/reward-threshold-out-of-bounds");
 
         // setup vest
@@ -119,7 +121,7 @@ library FarmProxyInit {
                 cfg.rewardThreshold,
                 cfg.rewardsDuration
             )),
-            minGasLimit: cfg.relayMinGasLimit
+            minGasLimit: cfg.initMinGasLimit
         });
 
         // update chainlog

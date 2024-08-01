@@ -77,9 +77,9 @@ contract DeployProxy is Script {
         l1Domain.selectFork();
 
         chainlog = ChainLogLike(l1Domain.readConfigAddress("chainlog"));
-        l1GovRelay = chainlog.getAddress("BASE_GOV_RELAY"); // TODO: get as input?
-        l2GovRelay = L1GovernanceRelayLike(payable(l1GovRelay)).l2GovernanceRelay(); // TODO: does it need to be payable?
-        l1Bridge = chainlog.getAddress("BASE_TOKEN_BRIDGE");
+        l1GovRelay = l1Domain.readConfigAddress("govRelay");
+        l2GovRelay = L1GovernanceRelayLike(l1GovRelay).l2GovernanceRelay();
+        l1Bridge = l1Domain.readConfigAddress("bridge");
         stakingToken = l2Domain.readConfigAddress("stakingToken");
         l1RewardsToken = l1Domain.readConfigAddress("rewardsToken");
         l2RewardsToken = l2Domain.readConfigAddress("rewardsToken");

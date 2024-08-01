@@ -22,7 +22,6 @@ interface TokenLike {
 }
 
 contract L1TokenBridgeMock {
-    address public immutable inbox;
     address public immutable escrow;
 
     constructor(address _escrow) {

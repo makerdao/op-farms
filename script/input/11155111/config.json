@@ -2,6 +2,8 @@
   "domains": {
     "sepolia": {
       "chainlog": "0x066eBcc55Ca699e14F3c3694CdB230a2B8cE3a83",
+      "govRelay": "0x0000000000000000000000000000000000000000",
+      "bridge": "0x0000000000000000000000000000000000000000",
       "rewardsToken": "0x0B2eaB37Ab96685Ad2b1A6FdDb8921e156073f84"
     },
     "base_sepolia": {
