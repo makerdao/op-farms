@@ -1,16 +1,16 @@
 {
   "domains": {
     "sepolia": {
-      "chainlog": "0x066eBcc55Ca699e14F3c3694CdB230a2B8cE3a83",
-      "govRelay": "0x0000000000000000000000000000000000000000",
-      "bridge": "0x0000000000000000000000000000000000000000",
-      "rewardsToken": "0x0B2eaB37Ab96685Ad2b1A6FdDb8921e156073f84"
+      "chainlog": "0x667a1BF9B7271EC89A9c1bDd4F751303c3306289",
+      "rewardsToken": "0x914af303be48320e8403f91E516946739AD76886"
     },
     "base_sepolia": {
       "l1Messenger": "0xC34855F4De64F1840e5686e64278da901e261f20",
       "l2Messenger": "0x4200000000000000000000000000000000000007",
-      "rewardsToken": "0x0000000000000000000000000000000000000000",
-      "stakingToken": "0x0000000000000000000000000000000000000000"
+      "rewardsToken": "0x667a1BF9B7271EC89A9c1bDd4F751303c3306289",
+      "stakingToken": "0x4699614928639b94cc291dEB9c69617D60d49F3b",
+      "govRelayCLKey": "BASE_GOV_RELAY",
+      "l1BridgeCLKey": "BASE_TOKEN_BRIDGE"
     }
   }
 }

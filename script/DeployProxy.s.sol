@@ -77,9 +77,9 @@ contract DeployProxy is Script {
         l1Domain.selectFork();
 
         chainlog = ChainLogLike(l1Domain.readConfigAddress("chainlog"));
-        l1GovRelay = l1Domain.readConfigAddress("govRelay");
+        l1GovRelay = chainlog.getAddress(l2Domain.readConfigBytes32FromString("govRelayCLKey"));
         l2GovRelay = L1GovernanceRelayLike(l1GovRelay).l2GovernanceRelay();
-        l1Bridge = l1Domain.readConfigAddress("bridge");
+        l1Bridge = chainlog.getAddress(l2Domain.readConfigBytes32FromString("l1BridgeCLKey"));
         stakingToken = l2Domain.readConfigAddress("stakingToken");
         l1RewardsToken = l1Domain.readConfigAddress("rewardsToken");
         l2RewardsToken = l2Domain.readConfigAddress("rewardsToken");

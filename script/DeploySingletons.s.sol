@@ -54,8 +54,10 @@ contract DeploySingletons is Script {
         l1Domain = new Domain(config, l1Chain);
         l2Domain = new Domain(config, l2Chain);
 
+        l1Domain.selectFork();
+
         chainlog = ChainLogLike(l1Domain.readConfigAddress("chainlog"));
-        l1GovRelay = l1Domain.readConfigAddress("govRelay");
+        l1GovRelay = chainlog.getAddress(l2Domain.readConfigBytes32FromString("govRelayCLKey"));
         l2GovRelay = L1GovernanceRelayLike(payable(l1GovRelay)).l2GovernanceRelay();
 
         l2Domain.selectFork();
