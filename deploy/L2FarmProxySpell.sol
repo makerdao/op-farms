@@ -35,10 +35,6 @@ interface FarmLike {
     function setRewardsDistribution(address) external;
 }
 
-interface ForwarderLike {
-    function receiver() external view returns (address);
-}
-
 // A reusable L2 spell to be used by the L2GovernanceRelay to exert admin control over L2 farms and their proxies
 contract L2FarmProxySpell {
     function rely(address l2Proxy, address usr) external { L2FarmProxyLike(l2Proxy).rely(usr); }
