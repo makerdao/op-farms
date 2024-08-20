@@ -82,8 +82,8 @@ contract Init is Script {
             farm:                      farm,
             rewardsDuration:           rewardsDuration,
             initMinGasLimit:           1_000_000,
-            proxyChainlogKey:          "FARM_PROXY_TKA_TKB_BASE", // Note: need to change this when non base (relevant for testing only as in production this is run in the spell)
-            distrChainlogKey:          "REWARDS_DIST_TKA_TKB_BASE" // Note: need to change this when non base (relevant for testing only as in production this is run in the spell)
+            proxyChainlogKey:          "FARM_PROXY_TKA_TKB_BASE", // Note: need to change this when non Base (relevant for testing only as in production this is run in the spell)
+            distrChainlogKey:          "REWARDS_DIST_TKA_TKB_BASE" // Note: need to change this when non Base (relevant for testing only as in production this is run in the spell)
         });
 
         vm.startBroadcast(l1PrivKey);

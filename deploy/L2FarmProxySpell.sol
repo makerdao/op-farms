@@ -60,7 +60,6 @@ contract L2FarmProxySpell {
         require(L2FarmProxyLike(l2Proxy).rewardsToken() == rewardsToken, "L2FarmProxySpell/rewards-token-mismatch");
         require(L2FarmProxyLike(l2Proxy).farm() == farm,                 "L2FarmProxySpell/farm-mismatch");
         require(FarmLike(farm).stakingToken() == stakingToken,           "L2FarmProxySpell/farm-staking-token-mismatch");
-        // TODO: check the farm's reward token as well?
         require(stakingToken != rewardsToken,                            "L2FarmProxySpell/rewards-token-same-as-staking-token");
 
         L2FarmProxyLike(l2Proxy).file("rewardThreshold", rewardThreshold);
