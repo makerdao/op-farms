@@ -78,10 +78,11 @@ forge script script/Init.s.sol:Init --slow --multi --broadcast
 
 ### Run a test distribution
 
-Run the following command to distribute the vested funds to the L1 proxy:
+Run the following command to distribute the vested funds to the L1 proxy.  
+We add a buffer to the gas estimation per Optimism's [recommendation](https://docs.optimism.io/builders/app-developers/bridging/messaging#for-l1-to-l2-transactions-1) for L1 => L2 transactions.
 
 ```
-forge script script/Distribute.s.sol:Distribute --slow --multi --broadcast
+forge script script/Distribute.s.sol:Distribute --slow --multi --broadcast --gas-estimate-multiplier 120
 ```
 
 Wait for the transaction to be relayed to L2, then run the following command to forward the bridged funds from the L2 proxy to the farm:
