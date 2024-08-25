@@ -41,8 +41,6 @@ contract Init is Script {
     Domain l1Domain;
     Domain l2Domain;
     DssInstance dss;
-    address l1GovRelay;
-    address l2GovRelay;
 
     function run() external {
         l1Chain = getChain(string(vm.envOr("L1", string("mainnet"))));
@@ -56,15 +54,6 @@ contract Init is Script {
 
         dss = MCD.loadFromChainlog(deps.readAddress(".chainlog"));
 
-        l1GovRelay = deps.readAddress(".l1GovRelay");
-        l2GovRelay = deps.readAddress(".l2GovRelay");
-
-        address l2Proxy = deps.readAddress(".l2Proxy");
-        address l2ProxySpell = deps.readAddress(".l2ProxySpell");
-        address l2RewardsToken = deps.readAddress(".l2RewardsToken");
-        address stakingToken = deps.readAddress(".stakingToken");
-        address farm = deps.readAddress(".farm");
-
         ProxiesConfig memory cfg = ProxiesConfig({
             vest:                      deps.readAddress(".vest"),
             vestTot:                   100 ether,
@@ -72,12 +61,12 @@ contract Init is Script {
             vestTau:                   100 days,
             vestedRewardsDistribution: deps.readAddress(".vestedRewardsDistribution"),
             l1RewardsToken:            deps.readAddress(".l1RewardsToken"),
-            l2RewardsToken:            l2RewardsToken,
-            stakingToken:              stakingToken,
+            l2RewardsToken:            deps.readAddress(".l2RewardsToken"),
+            stakingToken:              deps.readAddress(".stakingToken"),
             l1Bridge:                  deps.readAddress(".l1Bridge"),
             minGasLimit:               1_000_000, // Note that this is just a random value for testing, in production a tight value is recommended to avoid excess gas waste.
             rewardThreshold:           0,
-            farm:                      farm,
+            farm:                      deps.readAddress(".farm"),
             rewardsDuration:           1 days,
             initMinGasLimit:           1_000_000, // Note that also here, a tighter value in production is recommended.
             proxyChainlogKey:          "FARM_PROXY_TKA_TKB_BASE", // Note: need to change this when non Base (relevant for testing only as in production this is run in the spell)
@@ -87,10 +76,10 @@ contract Init is Script {
         vm.startBroadcast(l1PrivKey);
         FarmProxyInit.initProxies(
             dss,
-            l1GovRelay,
+            deps.readAddress(".l1GovRelay"),
             deps.readAddress(".l1Proxy"),
-            l2Proxy,
-            l2ProxySpell,
+            deps.readAddress(".l2Proxy"),
+            deps.readAddress(".l2ProxySpell"),
             cfg
         );
         vm.stopBroadcast();
