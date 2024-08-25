@@ -26,10 +26,6 @@ interface DistributionLike {
     function distribute() external returns (uint256);
 }
 
-interface L1ProxyLike {
-    function estimateDepositCost(uint256, uint256, uint256) external view returns (uint256, uint256);
-}
-
 // Run vestedRewardsDistribution.distribute() to test deployement
 contract Distribute is Script {
     using stdJson for string;
