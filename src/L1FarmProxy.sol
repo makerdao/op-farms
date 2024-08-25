@@ -99,4 +99,3 @@ contract L1FarmProxy {
         emit RewardAdded(reward);
     }
 }
-
