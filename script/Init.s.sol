@@ -64,8 +64,6 @@ contract Init is Script {
         address l2RewardsToken = deps.readAddress(".l2RewardsToken");
         address stakingToken = deps.readAddress(".stakingToken");
         address farm = deps.readAddress(".farm");
-        uint224 rewardThreshold = 0;
-        uint256 rewardsDuration = 1 days;
 
         ProxiesConfig memory cfg = ProxiesConfig({
             vest:                      deps.readAddress(".vest"),
@@ -78,9 +76,9 @@ contract Init is Script {
             stakingToken:              stakingToken,
             l1Bridge:                  deps.readAddress(".l1Bridge"),
             minGasLimit:               1_000_000, // Note that this is just a random value for testing, in production a tight value is recommended to avoid excess gas waste.
-            rewardThreshold:           rewardThreshold,
+            rewardThreshold:           0,
             farm:                      farm,
-            rewardsDuration:           rewardsDuration,
+            rewardsDuration:           1 days,
             initMinGasLimit:           1_000_000, // Note that also here, a tighter value in production is recommended.
             proxyChainlogKey:          "FARM_PROXY_TKA_TKB_BASE", // Note: need to change this when non Base (relevant for testing only as in production this is run in the spell)
             distrChainlogKey:          "REWARDS_DIST_TKA_TKB_BASE" // Note: need to change this when non Base (relevant for testing only as in production this is run in the spell)
