@@ -62,7 +62,7 @@ contract Init is Script {
             vestedRewardsDistribution: deps.readAddress(".vestedRewardsDistribution"),
             l1RewardsToken:            deps.readAddress(".l1RewardsToken"),
             l2RewardsToken:            deps.readAddress(".l2RewardsToken"),
-            stakingToken:              deps.readAddress(".stakingToken"),
+            l2StakingToken:            deps.readAddress(".l2StakingToken"),
             l1Bridge:                  deps.readAddress(".l1Bridge"),
             minGasLimit:               1_000_000, // Note that this is just a random value for testing, in production a tight value is recommended to avoid excess gas waste.
             rewardThreshold:           0,

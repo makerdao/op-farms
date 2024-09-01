@@ -53,7 +53,7 @@ struct ProxiesConfig {
     address vestedRewardsDistribution;
     address l1RewardsToken;
     address l2RewardsToken;
-    address stakingToken;
+    address l2StakingToken;
     address l1Bridge;
     uint32  minGasLimit;      // For filing in the L1 proxy
     uint224 rewardThreshold;  // For the L1 and L2 proxies
@@ -115,7 +115,7 @@ library FarmProxyInit {
             targetData: abi.encodeCall(L2FarmProxySpell.init, (
                 l2Proxy,
                 cfg.l2RewardsToken,
-                cfg.stakingToken,
+                cfg.l2StakingToken,
                 cfg.farm,
                 cfg.rewardThreshold,
                 cfg.rewardsDuration

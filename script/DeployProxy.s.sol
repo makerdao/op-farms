@@ -58,7 +58,7 @@ contract DeployProxy is Script {
     address owner;
     address l1Bridge;
     address vest;
-    address stakingToken;
+    address l2StakingToken;
     address l1RewardsToken;
     address l2RewardsToken;
     address l1Proxy;
@@ -80,7 +80,7 @@ contract DeployProxy is Script {
         l1GovRelay = chainlog.getAddress(l2Domain.readConfigBytes32FromString("govRelayCLKey"));
         l2GovRelay = L1GovernanceRelayLike(l1GovRelay).l2GovernanceRelay();
         l1Bridge = chainlog.getAddress(l2Domain.readConfigBytes32FromString("l1BridgeCLKey"));
-        stakingToken = l2Domain.readConfigAddress("stakingToken");
+        l2StakingToken = l2Domain.readConfigAddress("stakingToken");
         l1RewardsToken = l1Domain.readConfigAddress("rewardsToken");
         l2RewardsToken = l2Domain.readConfigAddress("rewardsToken");
 
@@ -100,7 +100,7 @@ contract DeployProxy is Script {
 
         StakingRewardsDeployParams memory farmParams = StakingRewardsDeployParams({
             owner: l2GovRelay,
-            stakingToken: stakingToken,
+            stakingToken: l2StakingToken,
             rewardsToken: l2RewardsToken
         });
         l2Domain.selectFork();
@@ -141,7 +141,7 @@ contract DeployProxy is Script {
         ScriptTools.exportContract("deployed", "farm", farm);
         ScriptTools.exportContract("deployed", "l2Proxy", l2Proxy);        
         ScriptTools.exportContract("deployed", "l2RewardsToken", l2RewardsToken);
-        ScriptTools.exportContract("deployed", "stakingToken", stakingToken);
+        ScriptTools.exportContract("deployed", "l2StakingToken", l2StakingToken);
         ScriptTools.exportContract("deployed", "l1Proxy", l1Proxy);
         ScriptTools.exportContract("deployed", "vest", vest);
         ScriptTools.exportContract("deployed", "vestedRewardsDistribution", vestedRewardsDistribution);
