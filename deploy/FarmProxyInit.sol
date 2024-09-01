@@ -89,7 +89,6 @@ library FarmProxyInit {
         require(l1Proxy.l1Bridge()            == cfg.l1Bridge,       "FarmProxyInit/l1-bridge-mismatch");
         require(cfg.minGasLimit               <= 500_000_000,        "FarmProxyInit/min-gas-limit-out-of-bounds");
         require(cfg.initMinGasLimit           <= 500_000_000,        "FarmProxyInit/init-min-gas-limit-out-of-bounds");
-        require(cfg.rewardThreshold           <= type(uint224).max,  "FarmProxyInit/reward-threshold-out-of-bounds");
 
         // setup vest
 
