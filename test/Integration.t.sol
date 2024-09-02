@@ -194,7 +194,7 @@ contract IntegrationTest is DssTest {
             vestedRewardsDistribution: address(vestedRewardsDistribution),
             l1RewardsToken:            address(l1Token),
             l2RewardsToken:            address(l2Token),
-            stakingToken:              stakingToken,
+            l2StakingToken:            stakingToken,
             l1Bridge:                  l1Bridge,
             minGasLimit:               1_000_000,
             rewardThreshold:           1 ether,
