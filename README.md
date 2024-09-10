@@ -25,6 +25,12 @@ This repository implements a mechanism to distribute rewards vested in a [DssVes
 
 Note that `L1FarmProxy.rewardThreshold` should be sufficiently large to reduce the frequency of cross-chain transfers (thereby saving keepers gas). `L2FarmProxy.rewardThreshold` must also be sufficiently large to limit the reduction of the farm's rate of rewards distribution. Consider also choosing `L2FarmProxy.rewardThreshold <= L1FarmProxy.rewardThreshold` so that the bridged rewards can be promptly distributed to the farm. In the initialization library, these two variables are assigned the same value.
 
+Note that the L2 Farm's reward rate might not be perfectly constant, even if the `L1FarmProxy` and `L2FarmProxy` reward thresholds are set to the same value. With the cross-chain setup there are several ways that can lead to non-constant reward rates. Therefore the following should be taken into consideration:
+* The system configuration (durations and thresholds) should be chosen carefully to align the vesting rate with the farm's reward rate.
+* Keepers should monitor and call `VestedRewardsDistribution.distribute` on L1 and `L2FarmProxy.forwardReward` whenever their reward thresholds are reached.
+* L2 sequencer downtimes or other bridging delays can lead to delayed L2 distribution.
+* Failed reward token bridging transactions should be monitored and retried.
+
 ## Deployment
 
 ### Declare env variables
