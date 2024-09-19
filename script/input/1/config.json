@@ -1,0 +1,17 @@
+{
+  "domains": {
+    "mainnet": {
+      "chainlog": "0xdA0Ab1e0017DEbCd72Be8599041a2aa3bA7e740F",
+      "rewardsToken": "0x0000000000000000000000000000000000000000",
+      "vest": "0x0000000000000000000000000000000000000000"
+    },
+    "base": {
+      "l1Messenger": "0x866E82a600A1414e583f7F13623F1aC5d58b0Afa",
+      "l2Messenger": "0x4200000000000000000000000000000000000007",
+      "rewardsToken": "0x0000000000000000000000000000000000000000",
+      "stakingToken": "0x0000000000000000000000000000000000000000",
+      "govRelayCLKey": "BASE_GOV_RELAY",
+      "l1BridgeCLKey": "BASE_TOKEN_BRIDGE"
+    }
+  }
+}
