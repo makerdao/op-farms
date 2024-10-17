@@ -21,6 +21,8 @@ contract FarmMock {
     address public immutable rewardsToken;
     address public immutable stakingToken;
 
+    uint256 public lastReward;
+
     event OwnerNominated(address newOwner);
     event PauseChanged(bool isPaused);
     event RewardAdded(uint256 rewards);
@@ -42,6 +44,7 @@ contract FarmMock {
     }
 
     function notifyRewardAmount(uint256 reward) external {
+        lastReward = reward;
         emit RewardAdded(reward);
     }
 
