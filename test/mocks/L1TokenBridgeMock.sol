@@ -24,18 +24,40 @@ interface TokenLike {
 contract L1TokenBridgeMock {
     address public immutable escrow;
 
+    address public lastLocalToken;
+    address public lastRemoteToken;
+    address public lastTo;
+    uint256 public lastAmount;
+    uint32  public lastMinGasLimit;
+    bytes32 public lastExtraDataHash;
+
     constructor(address _escrow) {
         escrow = _escrow;
     }
 
+    function getEmptyDataHash() public view returns (bytes32) {
+        return this.getDataHash("");
+    }
+
+    function getDataHash(bytes calldata data) public pure returns (bytes32) {
+        return keccak256(data);
+    }
+
     function bridgeERC20To(
         address        _localToken,
-        address        /* _remoteToken */,
-        address        /* _to */,
+        address        _remoteToken,
+        address        _to,
         uint256        _amount,
-        uint32         /* _minGasLimit */,
-        bytes calldata /* _extraData */
+        uint32         _minGasLimit,
+        bytes calldata _extraData
     ) public {
+        lastLocalToken = _localToken;
+        lastRemoteToken = _remoteToken;
+        lastTo = _to;
+        lastAmount = _amount;
+        lastMinGasLimit = _minGasLimit;
+        lastExtraDataHash = keccak256(_extraData);
+
         TokenLike(_localToken).transferFrom(msg.sender, escrow, _amount);
     }
 }
