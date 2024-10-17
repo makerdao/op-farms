@@ -1,6 +1,7 @@
 // L1FarmProxy.spec
 
 using GemMock as gem;
+using Auxiliar as aux;
 using L1TokenBridgeMock as l1Bridge;
 
 methods {
@@ -14,6 +15,7 @@ methods {
     function l2Proxy() external returns (address) envfree;
     function l1Bridge() external returns (address) envfree;
     //
+    function aux.getEmptyDataHash() external returns (bytes32) envfree;
     function gem.allowance(address,address) external returns (uint256) envfree;
     function gem.totalSupply() external returns (uint256) envfree;
     function gem.balanceOf(address) external returns (uint256) envfree;
@@ -24,7 +26,6 @@ methods {
     function l1Bridge.lastAmount() external returns (uint256) envfree;
     function l1Bridge.lastMinGasLimit() external returns (uint32) envfree;
     function l1Bridge.lastExtraDataHash() external returns (bytes32) envfree;
-    function l1Bridge.getEmptyDataHash() external returns (bytes32) envfree;
     //
     function _.transfer(address,uint256) external => DISPATCHER(true);
     function _.transferFrom(address,address,uint256) external => DISPATCHER(true);
@@ -194,7 +195,7 @@ rule recover_revert(address token, address receiver, uint256 amount) {
 rule notifyRewardAmount(uint256 reward) {
     env e;
 
-    bytes32 emptyDataHash = l1Bridge.getEmptyDataHash();
+    bytes32 emptyDataHash = aux.getEmptyDataHash();
 
     notifyRewardAmount(e, reward);
 

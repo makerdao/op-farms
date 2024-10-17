@@ -35,14 +35,6 @@ contract L1TokenBridgeMock {
         escrow = _escrow;
     }
 
-    function getEmptyDataHash() public view returns (bytes32) {
-        return this.getDataHash("");
-    }
-
-    function getDataHash(bytes calldata data) public pure returns (bytes32) {
-        return keccak256(data);
-    }
-
     function bridgeERC20To(
         address        _localToken,
         address        _remoteToken,
